@@ -1,0 +1,22 @@
+digraph ER_Improved {
+	fontsize=10 nodesep=0.5 rankdir=TB ranksep=0.75
+	node [fontname=Helvetica shape=plaintext]
+	users [label=<<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+    <TR><TD BGCOLOR="#e0e0e0" COLSPAN="1"><B>users</B></TD></TR><TR><TD ALIGN="LEFT">id (PK)</TD></TR><TR><TD ALIGN="LEFT">name</TD></TR><TR><TD ALIGN="LEFT">email</TD></TR><TR><TD ALIGN="LEFT">password_hash</TD></TR><TR><TD ALIGN="LEFT">role</TD></TR><TR><TD ALIGN="LEFT">created_at</TD></TR></TABLE>>]
+	emotions [label=<<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+    <TR><TD BGCOLOR="#e0e0e0" COLSPAN="1"><B>emotions</B></TD></TR><TR><TD ALIGN="LEFT">id (PK)</TD></TR><TR><TD ALIGN="LEFT">user_id (FK)</TD></TR><TR><TD ALIGN="LEFT">mood</TD></TR><TR><TD ALIGN="LEFT">note</TD></TR><TR><TD ALIGN="LEFT">created_at</TD></TR></TABLE>>]
+	chat_logs [label=<<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+    <TR><TD BGCOLOR="#e0e0e0" COLSPAN="1"><B>chat_logs</B></TD></TR><TR><TD ALIGN="LEFT">id (PK)</TD></TR><TR><TD ALIGN="LEFT">user_id (FK)</TD></TR><TR><TD ALIGN="LEFT">sender</TD></TR><TR><TD ALIGN="LEFT">message</TD></TR><TR><TD ALIGN="LEFT">created_at</TD></TR></TABLE>>]
+	sessions [label=<<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+    <TR><TD BGCOLOR="#e0e0e0" COLSPAN="1"><B>sessions</B></TD></TR><TR><TD ALIGN="LEFT">id (PK)</TD></TR><TR><TD ALIGN="LEFT">user_id (FK)</TD></TR><TR><TD ALIGN="LEFT">therapist_id (FK)</TD></TR><TR><TD ALIGN="LEFT">scheduled_at</TD></TR><TR><TD ALIGN="LEFT">link</TD></TR><TR><TD ALIGN="LEFT">notes</TD></TR><TR><TD ALIGN="LEFT">created_at</TD></TR></TABLE>>]
+	exercises [label=<<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+    <TR><TD BGCOLOR="#e0e0e0" COLSPAN="1"><B>exercises</B></TD></TR><TR><TD ALIGN="LEFT">id (PK)</TD></TR><TR><TD ALIGN="LEFT">title</TD></TR><TR><TD ALIGN="LEFT">description</TD></TR><TR><TD ALIGN="LEFT">category</TD></TR><TR><TD ALIGN="LEFT">created_at</TD></TR></TABLE>>]
+	user_exercises [label=<<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+    <TR><TD BGCOLOR="#e0e0e0" COLSPAN="1"><B>user_exercises</B></TD></TR><TR><TD ALIGN="LEFT">id (PK)</TD></TR><TR><TD ALIGN="LEFT">user_id (FK)</TD></TR><TR><TD ALIGN="LEFT">exercise_id (FK)</TD></TR><TR><TD ALIGN="LEFT">status</TD></TR><TR><TD ALIGN="LEFT">completed_at</TD></TR></TABLE>>]
+	users -> emotions [label="1:N"]
+	users -> chat_logs [label="1:N"]
+	users -> sessions [label="1:N (as user)"]
+	users -> sessions [label="1:N (as therapist)"]
+	users -> user_exercises [label="1:N"]
+	exercises -> user_exercises [label="1:N"]
+}
