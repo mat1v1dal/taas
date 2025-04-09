@@ -11,17 +11,11 @@ import (
 func main() {
 	log.Println("Iniciando servidor Terapia-as-a-Service...")
 
-	// Conexión a base de datos
 	db.InitDB()
 
 	r := gin.Default()
 
-	// Rutas públicas
-	r.POST("/register", handlers.Register)
-	r.POST("/login", handlers.Login)
-
-	// Rutas protegidas (a futuro, usar middleware JWT)
-	r.GET("/me", handlers.Me)
+	r.GET("/ping", handlers.Pong)
 
 	// Iniciar servidor
 	r.Run(":8080")

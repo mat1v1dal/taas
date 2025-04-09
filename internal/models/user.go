@@ -1,18 +1,33 @@
 package models
 
-import "time"
+import (
+	"gorm.io/gorm"
+)
 
+// Usuario base
 type User struct {
-	ID           uint   `gorm:"primaryKey"`
-	Name         string `gorm:"size:100"`
-	Email        string `gorm:"size:100;unique;not null"`
-	PasswordHash string `gorm:"not null"`
-	Role         string `gorm:"type:enum('user','therapist');default:'user'"`
-	CreatedAt    time.Time
+	gorm.Model
+	Name             string `gorm:"not null"`
+	Email            string `gorm:"unique;not null"`
+	Password         string `gorm:"not null"`
+	PassengerProfile *UserPassenger
+	DriverProfile    *UserDriver
+}
 
-	Emotions       []Emotion
-	ChatLogs       []ChatLog
-	Sessions       []Session `gorm:"foreignKey:UserID"`
-	TherapistSlots []Session `gorm:"foreignKey:TherapistID"`
-	UserExercises  []UserExercise
+// Perfil de pasajero asociado a un usuario
+type UserPassenger struct {
+	gorm.Model
+	UserID uint `gorm:"not null;uniqueIndex"` // Clave foránea única
+	User   User `gorm:"foreignKey:UserID"`
+	// Otros campos específicos para pasajeros
+}
+
+// Perfil de conductor asociado a un usuario
+type UserDriver struct {
+	gorm.Model
+	UserID              uint     `gorm:"not null;uniqueIndex"` // Clave foránea única
+	User                User     `gorm:"foreignKey:UserID"`
+	DriverLicenseNumber string   `gorm:"not null"`
+	Vehicle             *Vehicle // Relación con el vehículo
+	// Otros campos específicos para conductores
 }
