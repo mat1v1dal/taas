@@ -15,7 +15,12 @@ func main() {
 
 	r := gin.Default()
 
-	r.GET("/ping", handlers.Pong)
+	// Handlers de usuario
+	userHandler := handlers.NewUserHandler()
+
+	r.POST("/api/users", userHandler.CreateUser)
+	r.POST("/api/users/passenger", userHandler.RegisterPassenger)
+	r.POST("/api/users/driver", userHandler.RegisterDriver)
 
 	// Iniciar servidor
 	r.Run(":8080")

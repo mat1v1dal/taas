@@ -33,7 +33,10 @@ func InitDB() {
 		user, pass, host, port, name)
 
 	// Conexión
-	database, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	database, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
+		DisableForeignKeyConstraintWhenMigrating: true,
+		PrepareStmt:                              true,
+	})
 	if err != nil {
 		log.Fatalf("Error connecting to database: %v", err)
 	}
@@ -43,12 +46,12 @@ func InitDB() {
 	// Migraciones
 	err = DB.AutoMigrate(
 		&models.User{},
+		&models.UserPassenger{},
+		&models.Vehicle{},
+		&models.UserDriver{},
 		&models.Place{},
 		&models.Trip{},
 		&models.TripParticipation{},
-		&models.Vehicle{},
-		&models.UserPassenger{},
-		&models.UserDriver{},
 	)
 	if err != nil {
 		log.Fatalf("Auto migration failed: %v", err)

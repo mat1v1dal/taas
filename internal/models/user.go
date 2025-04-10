@@ -8,8 +8,11 @@ import (
 type User struct {
 	gorm.Model
 	Name             string `gorm:"not null"`
+	LastName         string `gorm:"not null"`
 	Email            string `gorm:"unique;not null"`
 	Password         string `gorm:"not null"`
+	Phone            string `gorm:"not null"`
+	Dni              string `gorm:"not null"`
 	PassengerProfile *UserPassenger
 	DriverProfile    *UserDriver
 }
@@ -25,9 +28,9 @@ type UserPassenger struct {
 // Perfil de conductor asociado a un usuario
 type UserDriver struct {
 	gorm.Model
-	UserID              uint     `gorm:"not null;uniqueIndex"` // Clave foránea única
+	UserID              uint     `gorm:"not null;uniqueIndex"`
 	User                User     `gorm:"foreignKey:UserID"`
 	DriverLicenseNumber string   `gorm:"not null"`
-	Vehicle             *Vehicle // Relación con el vehículo
-	// Otros campos específicos para conductores
+	VehicleID           *uint    // Cambiado a puntero para permitir null
+	Vehicle             *Vehicle `gorm:"foreignKey:VehicleID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 }

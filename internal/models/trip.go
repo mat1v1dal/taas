@@ -17,15 +17,15 @@ type Place struct {
 
 type Trip struct {
 	gorm.Model
-	DriverID       uint      `gorm:"not null"` // ID del conductor (UserDriver)
-	Driver         *User     `gorm:"foreignKey:DriverID"`
-	OriginID       uint      `gorm:"not null"` // Lugar de origen
-	Origin         *Place    `gorm:"foreignKey:OriginID"`
-	DestinationID  uint      `gorm:"not null"` // Lugar de destino
-	Destination    *Place    `gorm:"foreignKey:DestinationID"`
-	DepartureTime  time.Time `gorm:"not null"`
-	AvailableSeats int       `gorm:"not null"`
-	PricePerSeat   float64   `gorm:"not null"`
+	DriverID       uint        `gorm:"not null"` // ID del conductor (UserDriver)
+	Driver         *UserDriver `gorm:"foreignKey:DriverID"`
+	OriginID       uint        `gorm:"not null"` // Lugar de origen
+	Origin         *Place      `gorm:"foreignKey:OriginID"`
+	DestinationID  uint        `gorm:"not null"` // Lugar de destino
+	Destination    *Place      `gorm:"foreignKey:DestinationID"`
+	DepartureTime  time.Time   `gorm:"not null"`
+	AvailableSeats int         `gorm:"not null"`
+	PricePerSeat   float64     `gorm:"not null"`
 	Description    string
 	Status         bool
 	Cancelled      bool
