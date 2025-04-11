@@ -1,0 +1,201 @@
+basePath: /api
+definitions:
+  handlers.DriverRegistrationRequest:
+    properties:
+      driver_license:
+        type: string
+      user:
+        $ref: '#/definitions/models.User'
+    type: object
+  models.User:
+    properties:
+      dni:
+        type: string
+      driverProfile:
+        $ref: '#/definitions/models.UserDriver'
+      email:
+        type: string
+      lastName:
+        type: string
+      name:
+        type: string
+      passengerProfile:
+        $ref: '#/definitions/models.UserPassenger'
+      password:
+        type: string
+      phone:
+        type: string
+    type: object
+  models.UserDriver:
+    properties:
+      driverLicenseNumber:
+        type: string
+      user:
+        $ref: '#/definitions/models.User'
+      userID:
+        type: integer
+      vehicle:
+        $ref: '#/definitions/models.Vehicle'
+      vehicleID:
+        type: integer
+    type: object
+  models.UserPassenger:
+    properties:
+      userID:
+        description: Clave foránea única
+        type: integer
+    type: object
+  models.Vehicle:
+    properties:
+      make:
+        type: string
+      models:
+        type: string
+      plate:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: API de Terapia-as-a-Service para manejo de usuarios, conductores, pasajeros
+    y vehículos.
+  title: TaaS API
+  version: "1.0"
+paths:
+  /users:
+    post:
+      consumes:
+      - application/json
+      description: Crea un usuario base sin rol asignado (ni conductor ni pasajero)
+      parameters:
+      - description: Datos del usuario
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Crear un nuevo usuario
+      tags:
+      - Usuarios
+  /users/driver:
+    post:
+      consumes:
+      - application/json
+      description: Registra un usuario y le asigna el rol de conductor (sin vehículo)
+      parameters:
+      - description: Datos del conductor
+        in: body
+        name: driver
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.DriverRegistrationRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Registrar conductor
+      tags:
+      - Conductores
+  /users/passenger:
+    post:
+      consumes:
+      - application/json
+      description: Registra un usuario y le asigna el rol de pasajero
+      parameters:
+      - description: Datos del usuario pasajero
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Registrar pasajero
+      tags:
+      - Pasajeros
+  /vehicles:
+    post:
+      consumes:
+      - application/json
+      description: Crea un nuevo vehículo en el sistema
+      parameters:
+      - description: Datos del vehículo
+        in: body
+        name: vehicle
+        required: true
+        schema:
+          $ref: '#/definitions/models.Vehicle'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Vehicle'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Crear vehículo
+      tags:
+      - Vehículos
+swagger: "2.0"

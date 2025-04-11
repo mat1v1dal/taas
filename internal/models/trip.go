@@ -16,13 +16,13 @@ type Place struct {
 }
 
 type Trip struct {
-	gorm.Model
+	gorm.Model     `swaggerignore:"true"`
 	DriverID       uint        `gorm:"not null"` // ID del conductor (UserDriver)
-	Driver         *UserDriver `gorm:"foreignKey:DriverID"`
+	Driver         *UserDriver `gorm:"foreignKey:DriverID" swaggerignore:"true"`
 	OriginID       uint        `gorm:"not null"` // Lugar de origen
-	Origin         *Place      `gorm:"foreignKey:OriginID"`
+	Origin         *Place      `gorm:"foreignKey:OriginID" swaggerignore:"true"`
 	DestinationID  uint        `gorm:"not null"` // Lugar de destino
-	Destination    *Place      `gorm:"foreignKey:DestinationID"`
+	Destination    *Place      `gorm:"foreignKey:DestinationID" swaggerignore:"true"`
 	DepartureTime  time.Time   `gorm:"not null"`
 	AvailableSeats int         `gorm:"not null"`
 	PricePerSeat   float64     `gorm:"not null"`
